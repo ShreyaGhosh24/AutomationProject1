@@ -12,10 +12,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MakeAppointment {
 	public static Select facility(WebDriver driver) {
-		WebElement facility=driver.findElement(By.id("combo_facility"));
-		Select selectFacility=new Select(facility);
+		//Select selectFacility = null; 
+		
+		WebElement facility=driver.findElement(By.name("facility"));
+		Select selectFacility =new Select(facility);
+		
+		
 		
 		return selectFacility;
+		
+		
 		
 	}
 	public static WebElement passwordField(WebDriver driver) {

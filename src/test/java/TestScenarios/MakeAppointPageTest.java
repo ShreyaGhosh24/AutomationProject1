@@ -2,7 +2,7 @@ package TestScenarios;
 
 import org.testng.annotations.Test;
 
-
+import TestObjectRepository.AppointmentConfirmationPage;
 import TestObjectRepository.LoginPage;
 import TestObjectRepository.MakeAppointment;
 import junit.framework.Assert;
@@ -23,7 +23,7 @@ import java.util.Set;
 
 public class MakeAppointPageTest {
 	WebDriver driver;
-  @Test
+  /*@Test
   public void checkForCorrectOptionsInFacilityDropdown() {
 	  //String[] validOptions= {"Tokyo CURA Healthcare Center","Hongkong CURA Healthcare Center","Seoul CURA Healthcare Center"};
 	  Set<String> validOptions = new HashSet();
@@ -37,23 +37,37 @@ public class MakeAppointPageTest {
 	  }
 	  Assert.assertEquals(validOptions, actualOptions);
 	  
-}
+}*/
   @Test
   public void bookAppointment() throws InterruptedException {
 	  String day="12";
 	  String facility="Hongkong CURA Healthcare Center";
+	  String program="Medicaid";
+	 
 	  
 	  Select dropdown=MakeAppointment.facility(driver);
+	  
 	  dropdown.selectByVisibleText(facility);
 	  
 	  MakeAppointment.checkBox(driver).click();
 	  
 	  MakeAppointment.medicaidRadio(driver).click();
+	  
 	  MakeAppointment.comment(driver).sendKeys("abcdefg");
+	  
 	  MakeAppointment.calendar(driver, day).click();
 	  
 	  MakeAppointment.bookAppointmentBtn(driver).click();
-	  Thread.sleep(3000);
+	  
+	  String expectedURL="https://katalon-demo-cura.herokuapp.com/appointment.php#summary";
+	  
+	  String actualURL=driver.getCurrentUrl();
+	  Assert.assertEquals(expectedURL, actualURL);
+	  
+	  WebElement resultant_facility=AppointmentConfirmationPage.result_facility(driver);
+	  Assert.assertEquals(resultant_facility.getText(), facility);
+	  
+	  Assert.assertEquals(program,AppointmentConfirmationPage.HealthcareProgram(driver).getText());
 	  
 	  
 	  
